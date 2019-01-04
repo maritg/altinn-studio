@@ -1,7 +1,8 @@
 {{if or (not .LinkAccountMode) (and .LinkAccountMode .LinkAccountModeSignIn)}}
 		{{template "base/alert" .}}
 		{{end}}
-		<h4 class="ui top attached header center">
+		<h4
+    >
 			{{if .LinkAccountMode}}
 				{{.i18n.Tr "auth.oauth_signin_title"}}
 			{{else}}
@@ -11,23 +12,18 @@
 		<div class="ui attached segment">
 			<form class="ui form" action="{{.SignInLink}}" method="post">
 			{{.CsrfTokenHtml}}
+      <div>
+        <label for="user_name">{{.i18n.Tr "home.uname_holder"}}</label>
+      </div>
 			<div class="required inline field {{if and (.Err_UserName) (or (not .LinkAccountMode) (and .LinkAccountMode .LinkAccountModeSignIn))}}error{{end}}">
-				<label for="user_name">{{.i18n.Tr "home.uname_holder"}}</label>
 				<input id="user_name" name="user_name" value="{{.user_name}}" autofocus required>
 			</div>
+      <div>
+        <label for="password">{{.i18n.Tr "password"}}</label>
+      </div>
 			<div class="required inline field {{if and (.Err_Password) (or (not .LinkAccountMode) (and .LinkAccountMode .LinkAccountModeSignIn))}}error{{end}}">
-				<label for="password">{{.i18n.Tr "password"}}</label>
 				<input id="password" name="password" type="password" value="{{.password}}" autocomplete="off" required>
 			</div>
-			{{if not .LinkAccountMode}}
-			<div class="inline field">
-				<label></label>
-				<div class="ui checkbox">
-					<label>{{.i18n.Tr "auth.remember_me"}}</label>
-					<input name="remember" type="checkbox">
-				</div>
-			</div>
-			{{end}}
 
 			<div class="inline field">
 				<label></label>
@@ -48,5 +44,20 @@
 				</div>
 			{{end}}
 
+			{{if and .OrderedOAuth2Names .OAuth2Providers}}
+			<div class="ui attached segment">
+				<div class="oauth2 center">
+					<div>
+						<p>{{.i18n.Tr "sign_in_with"}}</p>{{range $key := .OrderedOAuth2Names}}
+						{{$provider := index $.OAuth2Providers $key}}
+						<a href="{{AppSubUrl}}/user/oauth2/{{$key}}"><img alt="{{$provider.DisplayName}}{{if eq $provider.Name "openidConnect"}} ({{$key}}){{end}}" title="{{$provider.DisplayName}}{{if eq $provider.Name "openidConnect"}} ({{$key}}){{end}}" class="{{$provider.Name}}" src="{{AppSubUrl}}{{$provider.Image}}"></a>
+						{{end}}
+					</div>
+				</div>
+			</div>
+			{{end}}
 			</form>
+      <div>
+      <img src="{{AppSubUrl}}/img/favicon.png">
+      </div>
 		</div>

@@ -3,6 +3,8 @@ version: '3.6'
 networks:
   altinncore_network:
     external: false
+volumes:
+  gitea-data:
 
 services:
   altinn_dashboard:
@@ -94,15 +96,21 @@ services:
 
   altinn_repositories:
     container_name: altinn-repositories
-    image: gitea/gitea:1.5.1
+    image: altinncore-repositories:latest
     restart: always
     networks:
       - altinncore_network
     volumes:
-      - "./src/AltinnRepositories/gitea-data:/data"
+      - "gitea-data:/data"
     ports:
       - "3000:3000"
       - "222:22"
+    build:
+      context: .
+      dockerfile: src/AltinnRepositories/Dockerfile
+    #configs:
+    #  - source: gitea-custom-ini
+    #  - target: /data/gitea/conf/app.ini
 
   altinn_runttimedb:
     container_name: altinn-runtimedb

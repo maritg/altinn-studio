@@ -4,13 +4,11 @@ const CheckerPlugin = require('awesome-typescript-loader').CheckerPlugin
 const MonacoPlugin = require('monaco-editor-webpack-plugin');
 const path = require('path');
 
-module.exports = {
+const common = {
   mode: 'development',
   devtool: 'eval',
-  entry: "./src/index.tsx",
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: "service-development.js"
+    filename: "[name].bundle.js"
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".jsx", ".css", ".scss"],
@@ -85,12 +83,30 @@ module.exports = {
       filename: "service-development.css",
     }),
     new CheckerPlugin(),
-    new MonacoPlugin({
-      output: path.join('..','js', 'react'),
-      languages: ['typescript', 'csharp']
-    }),
   ],
   devServer: {
     historyApiFallback: true,
   }
-}
+};
+
+module.exports = [
+  {
+    ...common,
+    entry: {
+      monaco: './index',
+    },
+    output: {
+      ...common.output,
+      path: path.resolve('dist', 'monaco'),
+      library: 'monaco',
+      libraryTarget: 'umd',
+    },
+  },
+  {
+    ...common,
+    entry: "./src/index.tsx",
+    output: {
+      filename: 'service-development.js',
+    }
+  }
+];

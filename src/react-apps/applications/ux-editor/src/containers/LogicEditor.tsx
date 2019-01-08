@@ -1,7 +1,8 @@
 import {Grid} from '@material-ui/core';
 import { createStyles, withStyles } from '@material-ui/core/styles';
 import * as React from 'react';
-import CodeEditor from '../../../shared/src/code-editor/codeEditor';
+//import CodeEditor from '../../../shared/src/code-editor/codeEditor';
+import MonacoEditor from '../../../shared/src/code-editor/MonacoEditorTest';
 
 // import theme from '../../../shared/src/theme/altinnStudioTheme';
 
@@ -11,6 +12,10 @@ export interface ILogicEditorProvidedProps {
   classes: any;
   folder: string;
   selectedFileName: string;
+}
+
+export interface ILogicEditorState {
+  value: string;
 }
 
 const styles = createStyles({
@@ -25,7 +30,11 @@ const styles = createStyles({
   }
 });
 
-class LogicEditor extends React.Component<ILogicEditorProvidedProps, any> {
+class LogicEditor extends React.Component<ILogicEditorProvidedProps, ILogicEditorState> {
+
+  public state = {
+    value: '// Type something...',
+  };
 
   public getFolderText(): string {
     switch (this.props.folder) {
@@ -44,6 +53,12 @@ class LogicEditor extends React.Component<ILogicEditorProvidedProps, any> {
     }
   }
 
+  public onEditorValueChange = (value: string) => {
+    this.setState({
+      value,
+    });
+  }
+
   public render() {
     const {classes, selectedFileName} = this.props;
     const foldertext = this.getFolderText();
@@ -57,8 +72,11 @@ class LogicEditor extends React.Component<ILogicEditorProvidedProps, any> {
           </span>
         </Grid>
         <Grid item={true} xs={12} className={classes.codeEditorContent}>
-        <CodeEditor
-          language={'typescript'}
+        <MonacoEditor
+          onValueChange={this.onEditorValueChange}
+          value={this.state.value}
+          path='Kalkulering.ts'
+          wordWrap='on'
         />
         </Grid>
         <Grid item={true} xs={12}>

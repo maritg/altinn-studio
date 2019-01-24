@@ -1,12 +1,13 @@
 import * as React from 'react';
 import VersionControlHeader from '../../../shared/src/version-control/versionControlHeader';
 import uieditorApp from '../../../ux-editor/src/SubApp';
+import AltinnInformation from '../../../shared/src/components/AltinnInformation';
 
 const DummySubApp = (name: any) => {
   return (
     <div>
       <VersionControlHeader language={null} />
-      Dummy app for {name.name}
+      <AltinnInformation />
     </div>
   );
 };

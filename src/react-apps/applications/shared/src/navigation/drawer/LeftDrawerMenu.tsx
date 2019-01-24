@@ -8,7 +8,7 @@ import { withStyles, WithStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import AltinnIcon from './AltinnIcon';
+import AltinnIcon from '../../../src/components/AltinnIcon';
 import { IMenuItem, leftDrawerMenuSettings } from './drawerMenuSettings';
 import { styles } from './leftDrawerMenuStyles';
 

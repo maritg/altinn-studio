@@ -18,5 +18,6 @@ declare global {
     service: string;
     instanceId: string;
     reportee: string;
+    language: string;
   }
 }

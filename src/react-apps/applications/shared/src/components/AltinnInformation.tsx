@@ -4,7 +4,6 @@ import { withStyles } from '@material-ui/core/styles';
 import { createStyles } from '@material-ui/core/styles';
 import * as React from 'react';
 import altinnTheme from '../theme/altinnStudioTheme';
-// import fetchLanguageDispatcher from '../../../service-development/src/utils/fetchLanguage/fetchLanguageDispatcher';
 import { getLanguageFromKey } from '../utils/language';
 import AltinnIcon from './AltinnIcon';
 
@@ -15,6 +14,7 @@ export interface IAltinnInformationComponentProvidedProps {
   link?: string;
   imageSource?: string;
   language: any;
+  shadow?: boolean;
 }
 
 export interface IAltinnInformationComponentState {
@@ -54,12 +54,6 @@ const styles = () => createStyles({
 class AltinnInformation extends
   React.Component<IAltinnInformationComponentProvidedProps, IAltinnInformationComponentState> {
 
-  // public componentDidMount() {
-  //   const altinnWindow: Window = window;
-  //   fetchLanguageDispatcher.fetchLanguage(
-  //     `${altinnWindow.location.origin}/designerapi/Language/GetLanguageAsJSON`, 'nb');
-  // }
-
   public render() {
     const { classes } = this.props;
     return (
@@ -72,7 +66,7 @@ class AltinnInformation extends
                   Her kommer det noe...
                 </h1>
                 <p className={classes.subText1}>
-                  {getLanguageFromKey('shared.wip_title', 'nb')}
+                  {getLanguageFromKey('shared.wip_title', this.props.language)}
                 </p>
                 <p className={classes.subText2}>
                   Vil du følge med på hva vi jobber med. du kan følge oss på github og få oversikt over alt som er på vei inn i løsningen.

@@ -135,6 +135,7 @@ class App extends React.Component<IServiceDevelopmentProps, IServiceDevelopmentA
                         service={service}
                         showBreadcrumbOnTablet={true}
                         showSubHeader={repoStatus.hasMergeConflict ? false : true}
+                        language={this.props.language}
                       />}
                     />
                   ))}

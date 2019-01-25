@@ -25,6 +25,7 @@ export interface IAppBarComponentProps extends WithStyles<typeof styles> {
   service?: string;
   showBreadcrumbOnTablet?: boolean;
   showSubHeader?: boolean;
+  language?: string;
 }
 export interface IAppBarComponentState {
   anchorEl: any;

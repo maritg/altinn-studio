@@ -104,7 +104,8 @@ namespace AltinnCore.Designer.Controllers
         /// <param name="service">The service identifier.</param>
         /// <param name="fileEditorMode">The mode for which files should be saved.</param>
         /// <param name="fileName">The name of the file to save.</param>
-        /// <returns>The content of the file.</returns>
+        /// <param name="stageFile">true if the file changes has to be staged</param>
+        /// <returns>ok if save and stage succeeds and internal server error on failure</returns>
         [HttpPost]
         public ActionResult<HttpResponseMessage> SaveServiceFile(string org, string service, FileEditorMode fileEditorMode, string fileName, bool stageFile)
         {

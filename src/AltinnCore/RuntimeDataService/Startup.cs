@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AltinnCore.Runtime.Db.Configuration;
-using AltinnCore.Runtime.Db.Models;
-using AltinnCore.Runtime.Db.Repository;
+using AltinnCore.Runtime.DataService.Configuration;
+using AltinnCore.Runtime.DataService.Models;
+using AltinnCore.Runtime.DataService.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -14,7 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace AltinnCore.Runtime.Db
+namespace AltinnCore.Runtime.DataService
 {
     /// <summary>
     /// database startup
@@ -42,9 +42,12 @@ namespace AltinnCore.Runtime.Db
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<AzureCosmosSettings>(Configuration.GetSection("AzureCosmosSettings"));
+            services.Configure<AzureStorageConfiguration>(Configuration.GetSection("AzureStorageConfiguration"));
             services.AddSingleton<IFormDataRepository, FormDataRepository>();
+            services.AddSingleton<IReporteeElementRepository, ReporteeElementRepository>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().AddControllersAsServices();
         }
 
         /// <summary>
@@ -60,10 +63,12 @@ namespace AltinnCore.Runtime.Db
             }
             else
             {
-                app.UseHsts();
+                app.UseExceptionHandler("/Error");
+
+                //app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseMvc();
         }
     }

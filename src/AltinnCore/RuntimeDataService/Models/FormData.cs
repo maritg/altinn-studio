@@ -4,11 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace AltinnCore.Runtime.Db.Models
+namespace AltinnCore.Runtime.DataService.Models
 {
     /// <summary>
     /// Model for form data
     /// </summary>
+    [Serializable]
     public class FormData
     {
         /// <summary>

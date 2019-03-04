@@ -1,4 +1,4 @@
-﻿{
+{
   "$schema": "http://json.schemastore.org/launchsettings.json",
   "iisSettings": {
     "windowsAuthentication": false,
@@ -12,16 +12,16 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "api/formdataapi",
+      "launchUrl": "dataserviceapi/formdataapi",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "AltinnCore.Runtime.Db": {
+    "AltinnCore.Runtime.DataService": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "api/formdataapi",
-      "applicationUrl": "https://localhost:5001;http://localhost:5000",
+      "launchUrl": "dataserviceapi/formdataapi",
+      "applicationUrl": "http://localhost:5010",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

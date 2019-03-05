@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AltinnCore.Common.Backend;
 using AltinnCore.Common.Helpers;
+using AltinnCore.Common.Models;
 using AltinnCore.Common.Services;
 using AltinnCore.Common.Services.Interfaces;
 using AltinnCore.ServiceLibrary;
@@ -34,6 +35,7 @@ namespace AltinnCore.Runtime.Controllers
         private readonly UserHelper _userHelper;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IWorkflowSI _workflowSI;
+        private readonly IFormData _formDataSI;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InstanceController"/> class
@@ -59,6 +61,7 @@ namespace AltinnCore.Runtime.Controllers
             IProfile profileService,
             IArchive archiveService,
             ITestdata testDataService,
+            IFormData dataService,
             IHttpContextAccessor httpContextAccessor,
             IWorkflowSI workflowSI)
         {
@@ -71,6 +74,7 @@ namespace AltinnCore.Runtime.Controllers
             _userHelper = new UserHelper(profileService, _register);
             _archive = archiveService;
             _testdata = testDataService;
+            _formDataSI = dataService;
             _httpContextAccessor = httpContextAccessor;
             _workflowSI = workflowSI;
         }
@@ -277,6 +281,9 @@ namespace AltinnCore.Runtime.Controllers
         [HttpPost]
         public async Task<IActionResult> StartService(StartServiceModel startServiceModel)
         {
+            object test = _formDataSI.GetFormData();
+            Instance instance = new Instance();
+
             // Dependency Injection: Getting the Service Specific Implementation based on the service parameter data store
             // Will compile code and load DLL in to memory for AltinnCore
             IServiceImplementation serviceImplementation = _execution.GetServiceImplementation(startServiceModel.Org, startServiceModel.Service);
@@ -349,6 +356,11 @@ namespace AltinnCore.Runtime.Controllers
                     startServiceModel.Org,
                     startServiceModel.Service,
                     requestContext.UserContext.ReporteeId);
+
+                instance.ReporteeId = requestContext.UserContext.ReporteeId.ToString();
+                instance.ServiceId = startServiceModel.ServiceID;
+
+                object test1 = _formDataSI.SaveInstance(instance);
 
                 ServiceState currentState = _workflowSI.InitializeService(formID, startServiceModel.Org, startServiceModel.Service, requestContext.UserContext.ReporteeId);
                 string redirectUrl = _workflowSI.GetUrlForCurrentState(formID, startServiceModel.Org, startServiceModel.Service, currentState.State);

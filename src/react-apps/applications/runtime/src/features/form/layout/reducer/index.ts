@@ -1,10 +1,10 @@
 import update from 'immutability-helper';
 import { Action, Reducer } from 'redux';
-import * as ActionTypes from '../actions/types';
 import {
   IFetchFormLayoutFulfilled,
-  IFetchFormLayoutRejected
+  IFetchFormLayoutRejected,
 } from '../actions/fetch';
+import * as ActionTypes from '../actions/types';
 
 export interface ILayoutState {
   components: any;

@@ -8,7 +8,6 @@ import { initSagas } from './sagas';
 
 import ErrorBoundry from './components/ErrorBoundry';
 
-
 initSagas();
 
 render(

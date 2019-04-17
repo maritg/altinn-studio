@@ -11,8 +11,8 @@ import { testData } from './testData';
 function* fetchFormLayoutSaga({ }: IFetchFormLayout): SagaIterator {
   try {
     // const formLayout = yield call(get, url);
-    const { components, containers, order } = testData.data;
-    yield call(Actions.fetchFormLayoutFulfilled, components, containers, order);
+    const { layout } = testData.data;
+    yield call(Actions.fetchFormLayoutFulfilled, layout);
   } catch (err) {
     yield call(Actions.fetchFormLayoutRejected, err);
   }

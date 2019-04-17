@@ -7,16 +7,12 @@ import {
 import * as ActionTypes from '../actions/types';
 
 export interface ILayoutState {
-  components: any;
-  containers: any;
-  order: any;
+  layout: any;
   error: Error;
 };
 
 const initialState: ILayoutState = {
-  components: null,
-  containers: null,
-  order: null,
+  layout: null,
   error: null,
 };
 
@@ -30,16 +26,10 @@ const LayoutReducer: Reducer<ILayoutState> = (
 
   switch (action.type) {
     case ActionTypes.FETCH_FORM_LAYOUT_FULFILLED: {
-      const { components, containers, order } = action as IFetchFormLayoutFulfilled;
+      const { layout } = action as IFetchFormLayoutFulfilled;
       return update<ILayoutState>(state, {
-        components: {
-          $set: components,
-        },
-        containers: {
-          $set: containers,
-        },
-        order: {
-          $set: order,
+        layout: {
+          $set: layout,
         },
         error: {
           $set: null,

@@ -15,6 +15,8 @@ export interface IGenericComponentProps {
   // handleDataChange: (callbackValue: any) => void;
   // getTextResource: (key: string) => string;
   thirdPartyComponents?: any;
+  language?: any;
+  attachments?: IAttachments;
 }
 
 class GenericComponent extends React.Component<IGenericComponentProps> {
@@ -24,25 +26,12 @@ class GenericComponent extends React.Component<IGenericComponentProps> {
     return 'test: ' + resourceKey;
   }
 
-
   public render() {
 
     const TagName = formComponentWithHandlers(components.find((c: any) => c.name ===
       this.props.component).Tag);
 
     console.log('Tagname: ', TagName, this.props.id);
-    // return (
-    // <TagName
-    //   id={this.props.id}
-    //   component={this.props.component}
-    //   isValid={this.props.isValid}
-    // formData={this.props.formData}
-    // getTextResource={this.props.getTextResource}
-    // handleDataChange={this.props.handleDataChange}
-    // validationMessages={this.props.validationMessages}
-    //   />
-    // );
-
     return (
       <div>
         id: {this.props.id}<br />
@@ -52,7 +41,20 @@ class GenericComponent extends React.Component<IGenericComponentProps> {
         getTextResource: {this.getTextResource(this.props.title)}<br />
         <hr />
       </div>
-    )
+    );
+
+    // return (
+    //   <TagName
+    //     id={this.props.id}
+    //     component={this.props.component}
+    //     isValid={this.props.isValid}
+    //     formData={this.props.formData}
+    //     getTextResource={this.props.getTextResource}
+    //     handleDataChange={this.props.handleDataChange}
+    //     validationMessages={this.props.validationMessages}
+    //     language={this.props.language}
+    //   />
+    // );
   }
 
 }

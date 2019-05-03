@@ -131,9 +131,33 @@ namespace AltinnCore.Common.Services.Implementation
         }
 
         /// <inheritdoc />
-        public Task<Guid> SaveFormAttachment(string applicationOwnerId, string applicationId, int instanceOwnerId, Guid instanceId, string attachmentType, string attachmentName, HttpRequest attachment)
+        public async Task<Guid> SaveFormAttachment(string applicationOwnerId, string applicationId, int instanceOwnerId, Guid instanceId, string attachmentType, string attachmentName, HttpRequest attachment)
         {
-            throw new NotImplementedException();
+            string apiUrl = $"{_platformStorageSettings.ApiUrl}/instances/{instanceId}/data?formId={FORM_ID}&instanceOwnerId={instanceOwnerId}";
+            Instance instance;
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(apiUrl);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(attachmentType));
+
+                using (Stream input = attachment.Body)
+                {
+                    HttpContent fileStreamContent = new StreamContent(input);
+
+                    using (MultipartFormDataContent formData = new MultipartFormDataContent())
+                    {
+                        formData.Add(fileStreamContent, FORM_ID, attachmentName);
+                        HttpResponseMessage response = await client.PostAsync(apiUrl, formData);
+
+                        response.EnsureSuccessStatusCode();
+
+                        string instanceData = await response.Content.ReadAsStringAsync();
+                        instance = JsonConvert.DeserializeObject<Instance>(instanceData);
+                        return Guid.Parse(instance.Data.Find(m => m.FileName.Equals(attachmentName)).Id);
+                    }
+                }
+            }
         }
     }
 }

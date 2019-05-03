@@ -710,24 +710,16 @@ namespace AltinnCore.Runtime.Controllers
         /// <summary>
         /// Method that gets the current service state
         /// </summary>
-        /// <param name="org">The organization for the service</param>
-        /// <param name="service">The name of the service</param>
-        /// <param name="partyId">The party id of the test user</param>
-        /// <param name="instanceId">The form id</param>
+        /// <param name="applicationOwnerId">The application ownere</param>
+        /// <param name="applicationId">The application id</param>
+        /// <param name="instanceOwnerId">the instance owner</param>
+        /// <param name="instanceId">The instance id</param>
         /// <returns>The current state object</returns>
         [HttpGet]
         [Authorize]
-        public ServiceState GetCurrentState(string org, string service, int partyId, Guid instanceId)
+        public ServiceState GetCurrentState(string applicationOwnerId, string applicationId, int instanceOwnerId, Guid instanceId)
         {
-            string developer = AuthenticationHelper.GetDeveloperUserName(_httpContextAccessor.HttpContext);
-            string serviceStatePath = $"{_settings.GetTestdataForPartyPath(org, service, developer)}{partyId}/{instanceId}/{instanceId}.json";
-            string currentStateAsString = System.IO.File.ReadAllText(serviceStatePath, Encoding.UTF8);
-            Instance instance = JsonConvert.DeserializeObject<Instance>(currentStateAsString);
-            Enum.TryParse<WorkflowStep>(instance.CurrentWorkflowStep, out WorkflowStep current);
-            return new ServiceState
-            {
-                State = current,
-            };
+            return _workflowSI.GetCurrentState(instanceId, applicationOwnerId, applicationId, instanceOwnerId);
         }
     }
 }

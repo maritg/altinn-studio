@@ -266,7 +266,7 @@ namespace Altinn.Platform.Storage.Controllers
                 FileName = contentFileName ?? $"{dataId}.xml",
                 LastChangedBy = User.Identity.Name,
                 LastChangedDateTime = creationTime,
-                FileSize = fileSize
+                FileSize = fileSize,
                 Link = dataLink,
             };
 

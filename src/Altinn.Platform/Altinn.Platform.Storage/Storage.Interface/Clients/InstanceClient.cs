@@ -159,7 +159,7 @@ namespace Altinn.Platform.Storage.Client
         /// <returns>List of intance events.</returns>
         public async Task<List<InstanceEvent>> GetInstanceEvents(string instanceId, string[] eventTypes, string from, string to)
         {
-            string requestUri = $"{versionPrefix_new}/instances/{instanceId}/events?";
+            string requestUri = $"{versionPrefix}/instances/{instanceId}/events?";
             if (!(eventTypes == null))
             {
                 foreach (string type in eventTypes)
@@ -186,7 +186,7 @@ namespace Altinn.Platform.Storage.Client
         /// <returns>The stored instance event.</returns>
         public async Task<string> PostInstanceEvent(InstanceEvent instanceEvent)
         {
-            string requestUri = $"{versionPrefix_new}/instances/{instanceEvent.InstanceId}/events";
+            string requestUri = $"{versionPrefix}/instances/{instanceEvent.InstanceId}/events";
             HttpResponseMessage response = await client.PostAsync(hostName + requestUri, new StringContent(instanceEvent.ToString(), Encoding.UTF8, "application/json"));
             string newId = await response.Content.ReadAsStringAsync();
             return newId;
@@ -199,24 +199,24 @@ namespace Altinn.Platform.Storage.Client
         /// <returns>True if instance events were successfully deleted.</returns>
         public async Task<bool> DeleteInstanceEvents(string instanceId)
         {
-            string requestUri = $"{versionPrefix_new}/instances/{instanceId}/events";
+            string requestUri = $"{versionPrefix}/instances/{instanceId}/events";
             HttpResponseMessage response = await client.DeleteAsync(requestUri);
             response.EnsureSuccessStatusCode();
             return true;
         }
     }
 
-    /// <summary>
-    /// Class to wrap a json object into a StringContent with correct encoding and content type.
-    /// </summary>
-    public static class Extensions
-    {
-        /// <summary>
-        ///  Wrapper method.
-        /// </summary>
-        /// <param name="o">the json object to wrap.</param>
-        /// <returns>a StringContent object.</returns>
-        public static StringContent AsJson(this object o)
-        => new StringContent(JsonConvert.SerializeObject(o), Encoding.UTF8, "application/json");
-    }
+    ///// <summary>
+    ///// Class to wrap a json object into a StringContent with correct encoding and content type.
+    ///// </summary>
+    //public static class Extensions
+    //{
+    //    /// <summary>
+    //    ///  Wrapper method.
+    //    /// </summary>
+    //    /// <param name="o">the json object to wrap.</param>
+    //    /// <returns>a StringContent object.</returns>
+    //    public static StringContent AsJson(this object o)
+    //    => new StringContent(JsonConvert.SerializeObject(o), Encoding.UTF8, "application/json");
+    //}
 }

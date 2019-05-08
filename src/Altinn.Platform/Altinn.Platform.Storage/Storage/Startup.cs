@@ -37,6 +37,7 @@ namespace Altinn.Platform.Storage
             services.Configure<AzureStorageConfiguration>(Configuration.GetSection("AzureStorageConfiguration"));
             services.AddSingleton<IDataRepository, DataRepository>();
             services.AddSingleton<IInstanceRepository, InstanceRepository>();
+            services.AddSingleton<IInstanceEventRepository, InstanceEventRepository>();
             services.AddSingleton<IApplicationRepository, ApplicationRepository>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);

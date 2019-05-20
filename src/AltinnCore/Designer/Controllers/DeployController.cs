@@ -33,6 +33,7 @@ namespace AltinnCore.Designer.Controllers
         private readonly ILogger<DeployController> _logger;
         private readonly ServiceRepositorySettings _settings;
         private readonly PlatformSettings _platformSettings;
+        private readonly IRepository _repository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DeployController"/> class
@@ -43,13 +44,15 @@ namespace AltinnCore.Designer.Controllers
         /// <param name="logger">The logger</param>
         /// <param name="settings">The settings service</param>
         /// <param name="platformSettings">The platform settings</param>
+        ///<param name = "repositoryService" > the repository service</param>        
         public DeployController(
             ISourceControl sourceControl,
             IConfiguration configuration,
             IGitea giteaAPI,
             ILogger<DeployController> logger,
             IOptions<ServiceRepositorySettings> settings,
-            IOptions<PlatformSettings> platformSettings)
+            IOptions<PlatformSettings> platformSettings,
+            IRepository repositoryService)
         {
             _sourceControl = sourceControl;
             _configuration = configuration;
@@ -57,6 +60,7 @@ namespace AltinnCore.Designer.Controllers
             _logger = logger;
             _settings = settings.Value;
             _platformSettings = platformSettings.Value;
+            _repository = repositoryService;
         }
 
         /// <summary>
@@ -236,10 +240,12 @@ namespace AltinnCore.Designer.Controllers
                 HttpResponseMessage getApplicationMetadataResponse = await client.GetAsync(getApplicationMetadataUrl);
                 if (getApplicationMetadataResponse.IsSuccessStatusCode)
                 {
+                    ApplicationMetadata applicationMetadataFromRepository = JsonConvert.DeserializeObject<ApplicationMetadata>(_repository.GetJsonFile(applicationOwnerId, applicationCode, "metadata/applicationmetadata.json"));
                     string json = getApplicationMetadataResponse.Content.ReadAsStringAsync().Result;
                     application = JsonConvert.DeserializeObject<ApplicationMetadata>(json);
                     applicationInStorage = true;
                     application.VersionId = versionId;
+                    application.Forms = applicationMetadataFromRepository.Forms;
                     HttpResponseMessage response = client.PutAsync(getApplicationMetadataUrl, application.AsJson()).Result;
                     if (response.IsSuccessStatusCode)
                     {

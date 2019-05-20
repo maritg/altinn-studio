@@ -43,14 +43,14 @@ namespace Altinn.Platform.Storage
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddMvc().AddControllersAsServices();
 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info
-                {
-                    Title = "Altinn Platform Storage",
-                    Version = "v1"
-                });
-            });
+            //services.AddSwaggerGen(c =>
+            //{
+            //    c.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info
+            //    {
+            //        Title = "Altinn Platform Storage",
+            //        Version = "v1"
+            //    });
+            //});
         }
 
         /// <summary>
@@ -71,12 +71,12 @@ namespace Altinn.Platform.Storage
                 // app.UseHsts();
             }
 
-            app.UseSwagger();
+            //app.UseSwagger();
 
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Altinn Platform Storage API");
-            });
+            //app.UseSwaggerUI(c =>
+            //{
+            //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Altinn Platform Storage API");
+            //});
 
             // app.UseHttpsRedirection();
             app.UseMvc();

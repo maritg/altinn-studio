@@ -1,0 +1,18 @@
+{
+    "tasks": [
+        {
+            "label": "azds: prelaunch",
+            "command": "azds",
+            "args": [
+                "up",
+                "--port=57786:9229",
+                "--await-exec",
+                "--keep-alive"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": []
+        }
+    ]
+}

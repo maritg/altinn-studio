@@ -75,22 +75,22 @@ namespace Altinn.Platform.Storage
             
             if (basePath == "/")
             {
-                configJsonFile2 = "/app/appsettings.json";                
+                configJsonFile2 = "src/appsettings.json";                
             }
 
             logger.Information($"Loading configuration file: '{configJsonFile1}'");
             config.AddJsonFile(configJsonFile1, optional: true, reloadOnChange: true);
 
             logger.Information($"Loading configuration file2: '{configJsonFile2}'");
-            config.AddJsonFile(configJsonFile2, optional: false, reloadOnChange: true);                        
+            config.AddJsonFile(configJsonFile2, optional: false, reloadOnChange: true);
 
             config.AddEnvironmentVariables();
             config.AddCommandLine(args);
             IConfiguration stageOneConfig = config.Build();
-            string appId = stageOneConfig.GetValue<string>("kvSetting:ClientId:0");
-            string tenantId = stageOneConfig.GetValue<string>("kvSetting:TenantId:0");
-            string appKey = stageOneConfig.GetValue<string>("kvSetting:ClientSecret:0");
-            string keyVaultEndpoint = stageOneConfig.GetValue<string>("kvSetting:SecretUri:0");
+            string appId = stageOneConfig.GetValue<string>("kvSetting_ClientId");
+            string tenantId = stageOneConfig.GetValue<string>("kvSetting_TenantId");
+            string appKey = stageOneConfig.GetValue<string>("kvSetting_ClientSecret");
+            string keyVaultEndpoint = stageOneConfig.GetValue<string>("kvSetting_SecretUri");
             if (!string.IsNullOrEmpty(appId) && !string.IsNullOrEmpty(tenantId)
                 && !string.IsNullOrEmpty(appKey) && !string.IsNullOrEmpty(keyVaultEndpoint))
             {
@@ -106,7 +106,7 @@ namespace Altinn.Platform.Storage
             logger.Information($"Setting application insights instrumentationKey='{applicationInsights}'");
             if (!string.IsNullOrEmpty(applicationInsights))
             {
-                TelemetryConfiguration.Active.InstrumentationKey = applicationInsights;                
+                TelemetryConfiguration.Active.InstrumentationKey = applicationInsights;
             }
         }
     }
